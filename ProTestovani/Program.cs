@@ -6,9 +6,41 @@ internal class Program
 {
     private static void Main(string[] args)
     {
-        string cesta = @"C:\Users\sarka\OneDrive\Dokumenty\C#\Czechitas\text.txt";
+        string cesta = "";
 
-        Console.WriteLine("Chcete do souboru přidávat řádky nebo vypsat soubor?\nOdpovězte zadáním čísla: 1 - přidat řádky / 2 - vypsat soubor");
+        Console.WriteLine("Dobrý den,\nchcete zadat cestu k souboru ručně?\nOdpovězte zadáním čísla: 1 - ano / 2 - ne");
+
+        string answPath = Console.ReadLine();
+        bool tryAgainPath = true;
+
+        while (tryAgainPath)
+        {
+            try
+            {
+                switch (Int32.Parse(answPath))
+                {
+                    case (int)FileOperation.yes:
+                        Console.WriteLine("Zadejte cestu:");
+                        cesta = Console.ReadLine();
+                        break;
+
+                    case (int)FileOperation.no:
+                        cesta = @"C:\text.txt";
+                        break;
+                    default:
+                        Console.WriteLine("Zřejmě jste jako odpověď nezadali 1 nebo 2, zkuste to znovu:");
+                        answPath = Console.ReadLine();
+                        break;
+                }
+                tryAgainPath = false;
+            }
+            catch (FormatException e)
+            {
+                Console.WriteLine("Zřejmě jste jako odpověď nezadali 1 nebo 2, zkuste to znovu:");
+                answPath = Console.ReadLine();
+            }
+        }
+        Console.WriteLine("Chcete do souboru přidávat řádky nebo vypsat soubor?\nOdpovězte zadáním čísla: 3 - přidat řádky / 4 - vypsat soubor");
 
         string answFile = Console.ReadLine();
         bool tryAgainFile = true;
@@ -21,7 +53,7 @@ internal class Program
                 {
                     case (int)FileOperation.addInfo:
 
-                        Console.WriteLine("Má se soubor přepsat nebo se mají řádky přidat na konec?\nOdpovězte zadáním čísla: 3 - přepsat / 4 - přidat");
+                        Console.WriteLine("Má se soubor přepsat nebo se mají řádky přidat na konec?\nOdpovězte zadáním čísla: 5 - přepsat / 6 - přidat");
                         
                         string answWork = Console.ReadLine();
                         bool tryAgainWork = true;
@@ -44,8 +76,8 @@ internal class Program
                                         File.AppendAllLines(cesta, poleProPridani);
                                     break;
 
-                                    default:
-                                        Console.WriteLine("Zřejmě jste jako odpověď nezadali 3 nebo 4, zkuste to znovu:");
+                                    default: // nedojde ke znovunačtení odpovědi
+                                        Console.WriteLine("Zřejmě jste jako odpověď nezadali 5 nebo 6, zkuste to znovu:");
                                         answWork = Console.ReadLine();
                                     break;
                                 }
@@ -54,7 +86,7 @@ internal class Program
                             }
                             catch (FormatException e)
                             {
-                                Console.WriteLine("Zřejmě jste jako odpověď nezadali 3 nebo 4, zkuste to znovu:");
+                                Console.WriteLine("Zřejmě jste jako odpověď nezadali 5 nebo 6, zkuste to znovu:");
                                 answWork = Console.ReadLine();
                             }
                         }
@@ -66,8 +98,8 @@ internal class Program
                         Console.WriteLine(vypisSouboru);
                         break;
 
-                    default:
-                        Console.WriteLine("Zřejmě jste jako odpověď nezadali 1 nebo 2, zkuste to znovu:");
+                    default: // nedojde ke znovunačtení odpovědi
+                        Console.WriteLine("Zřejmě jste jako odpověď nezadali 3 nebo 4, zkuste to znovu:");
                         answFile = Console.ReadLine();
                         break;
 
@@ -76,7 +108,7 @@ internal class Program
             }
             catch (FormatException e)
             {
-                Console.WriteLine("Zřejmě jste jako odpověď nezadali 1 nebo 2, zkuste to znovu:");
+                Console.WriteLine("Zřejmě jste jako odpověď nezadali 3 nebo 4, zkuste to znovu:");
                 answFile = Console.ReadLine();
             }
         }
@@ -91,10 +123,12 @@ internal class Program
 
     enum FileOperation
     {
-        addInfo = 1,
-        readFile = 2,
-        overwrite = 3,
-        addRow = 4
+        yes = 1,
+        no = 2,
+        addInfo = 3,
+        readFile = 4,
+        overwrite = 5,
+        addRow = 6
     }
 
     public static string[] PridavaniTextu()
