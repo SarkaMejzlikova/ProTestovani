@@ -115,12 +115,6 @@ internal class Program
 
     }
 
-    enum Cesta
-    {
-        ano = 1,
-        ne = 2
-    }
-
     enum FileOperation
     {
         yes = 1,
